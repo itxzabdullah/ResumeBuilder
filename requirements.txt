@@ -2,7 +2,6 @@ flask
 flask-cors
 pandas
 scikit-learn
-spacy
 pdfplumber
 python-docx
 google-generativeai
