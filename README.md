@@ -1,6 +1,8 @@
-# ONLYJOBS
+# ONLYJOBS - Resume Builder
 
 Small resume-parsing and job-matching demo (Flask backend + static frontend).
+
+**Live Demo:** [onlyjobs-five.vercel.app](https://onlyjobs-five.vercel.app/)
 
 ## Requirements
 - Python 3.8+
