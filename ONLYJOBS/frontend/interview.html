@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interview Prep | ONLYJOBS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="dashboard-body">
+
+    <nav class="navbar navbar-expand-lg navbar-dark glass-nav fixed-top">
+        <div class="container-fluid px-4">
+            <a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="index.html">
+                <i class="bi bi-file-earmark-person-fill text-primary-gradient"></i> ONLYJOBS
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center gap-3">
+                    <li class="nav-item">
+                        <a class="nav-link" href="dashboard">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="interview">Interview Prep</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="builder">Resume Builder</a>
+                    </li>
+                    <li class="nav-item ms-lg-3">
+                         <a class="nav-link text-danger" href="index.html">Sign Out</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid pt-5 mt-5 pb-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-10 col-xl-8">
+                
+                <!-- Header Section -->
+                <div class="text-center mb-5">
+                    <h1 class="display-5 fw-bold mb-3">
+                        <i class="bi bi-chat-dots-fill text-primary me-3"></i>
+                        Interview Preparation
+                    </h1>
+                    <p class="lead text-muted">Practice with role-specific questions to ace your next interview</p>
+                </div>
+
+                <!-- Job Title Selection -->
+                <div class="card border-0 shadow-sm feature-card mb-4">
+                    <div class="card-body p-4">
+                        <h5 class="fw-bold mb-4">Select Job Role</h5>
+                        <div class="row g-3">
+                            <div class="col-md-8">
+                                <select class="form-select form-select-lg" id="jobRoleSelect">
+                                    <option value="">Choose a role...</option>
+                                    <option value="Frontend Web Developer">Frontend Web Developer</option>
+                                    <option value="Web Developer">Web Developer</option>
+                                    <option value="Social Media Manager">Social Media Manager</option>
+                                    <option value="Network Engineer">Network Engineer</option>
+                                    <option value="Quality Control Manager">Quality Control Manager</option>
+                                    <option value="Generic">Other / General Questions</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <button class="btn btn-primary btn-lg w-100 fw-bold btn-gradient" id="loadQuestionsBtn">
+                                    <i class="bi bi-search me-2"></i>Load Questions
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Loading State -->
+                <div id="loadingState" class="text-center py-5 d-none">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p class="text-muted mt-3">Loading interview questions...</p>
+                </div>
+
+                <!-- Questions Display -->
+                <div id="questionsContainer" class="d-none">
+                    
+                    <!-- Technical Questions -->
+                    <div class="card border-0 shadow-sm feature-card mb-4">
+                        <div class="card-header bg-transparent border-0 pt-4 px-4">
+                            <h5 class="fw-bold mb-0">
+                                <i class="bi bi-code-square text-primary me-2"></i>
+                                Technical Questions
+                            </h5>
+                        </div>
+                        <div class="card-body px-4 pb-4">
+                            <div id="technicalQuestions" class="list-group list-group-flush">
+                                <!-- Questions will be inserted here -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Behavioral Questions -->
+                    <div class="card border-0 shadow-sm feature-card mb-4">
+                        <div class="card-header bg-transparent border-0 pt-4 px-4">
+                            <h5 class="fw-bold mb-0">
+                                <i class="bi bi-people-fill text-success me-2"></i>
+                                Behavioral Questions
+                            </h5>
+                        </div>
+                        <div class="card-body px-4 pb-4">
+                            <div id="behavioralQuestions" class="list-group list-group-flush">
+                                <!-- Questions will be inserted here -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Situational Questions -->
+                    <div class="card border-0 shadow-sm feature-card mb-4">
+                        <div class="card-header bg-transparent border-0 pt-4 px-4">
+                            <h5 class="fw-bold mb-0">
+                                <i class="bi bi-lightbulb-fill text-warning me-2"></i>
+                                Situational Questions
+                            </h5>
+                        </div>
+                        <div class="card-body px-4 pb-4">
+                            <div id="situationalQuestions" class="list-group list-group-flush">
+                                <!-- Questions will be inserted here -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="text-center mt-4">
+                        <button class="btn btn-outline-primary btn-lg px-5 rounded-pill me-3" id="refreshQuestionsBtn">
+                            <i class="bi bi-arrow-clockwise me-2"></i>Get Different Questions
+                        </button>
+                        <button class="btn btn-outline-secondary btn-lg px-5 rounded-pill" onclick="window.print()">
+                            <i class="bi bi-printer me-2"></i>Print Questions
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Empty State -->
+                <div id="emptyState" class="text-center py-5">
+                    <i class="bi bi-chat-square-dots display-1 text-muted opacity-25 mb-4"></i>
+                    <h4 class="text-muted mb-3">Select a job role to get started</h4>
+                    <p class="text-muted">Choose from the dropdown above to load relevant interview questions</p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Interview Questions Handler
+        const jobRoleSelect = document.getElementById('jobRoleSelect');
+        const loadQuestionsBtn = document.getElementById('loadQuestionsBtn');
+        const refreshQuestionsBtn = document.getElementById('refreshQuestionsBtn');
+        const loadingState = document.getElementById('loadingState');
+        const questionsContainer = document.getElementById('questionsContainer');
+        const emptyState = document.getElementById('emptyState');
+
+        let currentJobTitle = '';
+
+        // Load questions on button click
+        loadQuestionsBtn.addEventListener('click', loadInterviewQuestions);
+        
+        // Refresh questions
+        if (refreshQuestionsBtn) {
+            refreshQuestionsBtn.addEventListener('click', () => {
+                if (currentJobTitle) {
+                    loadInterviewQuestions();
+                }
+            });
+        }
+
+        async function loadInterviewQuestions() {
+            const jobTitle = jobRoleSelect.value;
+            
+            if (!jobTitle) {
+                alert('Please select a job role first');
+                return;
+            }
+
+            currentJobTitle = jobTitle;
+
+            // Show loading state
+            emptyState.classList.add('d-none');
+            questionsContainer.classList.add('d-none');
+            loadingState.classList.remove('d-none');
+
+            try {
+                const response = await fetch('/api/interview_questions', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        job_title: jobTitle
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to fetch questions');
+                }
+
+                const data = await response.json();
+
+                if (data.success && data.questions) {
+                    displayQuestions(data.questions);
+                    
+                    // Hide loading, show questions
+                    loadingState.classList.add('d-none');
+                    questionsContainer.classList.remove('d-none');
+                } else {
+                    throw new Error('Invalid response format');
+                }
+
+            } catch (error) {
+                console.error('Error loading questions:', error);
+                loadingState.classList.add('d-none');
+                emptyState.classList.remove('d-none');
+                alert('Failed to load interview questions. Please try again.');
+            }
+        }
+
+        function displayQuestions(questions) {
+            // Display Technical Questions
+            const technicalContainer = document.getElementById('technicalQuestions');
+            technicalContainer.innerHTML = '';
+            
+            if (questions.technical && questions.technical.length > 0) {
+                questions.technical.forEach((q, index) => {
+                    technicalContainer.innerHTML += createQuestionCard(q, index + 1, 'primary');
+                });
+            } else {
+                technicalContainer.innerHTML = '<p class="text-muted text-center py-3">No technical questions available</p>';
+            }
+
+            // Display Behavioral Questions
+            const behavioralContainer = document.getElementById('behavioralQuestions');
+            behavioralContainer.innerHTML = '';
+            
+            if (questions.behavioral && questions.behavioral.length > 0) {
+                questions.behavioral.forEach((q, index) => {
+                    behavioralContainer.innerHTML += createQuestionCard(q, index + 1, 'success');
+                });
+            } else {
+                behavioralContainer.innerHTML = '<p class="text-muted text-center py-3">No behavioral questions available</p>';
+            }
+
+            // Display Situational Questions
+            const situationalContainer = document.getElementById('situationalQuestions');
+            situationalContainer.innerHTML = '';
+            
+            if (questions.situational && questions.situational.length > 0) {
+                questions.situational.forEach((q, index) => {
+                    situationalContainer.innerHTML += createQuestionCard(q, index + 1, 'warning');
+                });
+            } else {
+                situationalContainer.innerHTML = '<p class="text-muted text-center py-3">No situational questions available</p>';
+            }
+        }
+
+        function createQuestionCard(question, number, color) {
+            return `
+                <div class="list-group-item bg-transparent border-0 px-0 py-3">
+                    <div class="d-flex gap-3 align-items-start">
+                        <span class="badge bg-${color}-subtle text-${color} rounded-circle d-flex align-items-center justify-content-center" 
+                              style="width: 32px; height: 32px; font-weight: 600;">
+                            ${number}
+                        </span>
+                        <div class="flex-grow-1">
+                            <p class="mb-2 fw-medium">${question}</p>
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-sm btn-outline-${color} rounded-pill" 
+                                        onclick="toggleAnswer(this)">
+                                    <i class="bi bi-lightbulb me-1"></i>Show Tips
+                                </button>
+                            </div>
+                            <div class="answer-section d-none mt-3 p-3 bg-${color}-subtle rounded-3">
+                                <p class="small mb-0 text-muted">
+                                    <strong>Tip:</strong> Use the STAR method (Situation, Task, Action, Result) to structure your answer. 
+                                    Be specific with examples from your experience.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function toggleAnswer(button) {
+            const answerSection = button.parentElement.nextElementSibling;
+            const icon = button.querySelector('i');
+            
+            if (answerSection.classList.contains('d-none')) {
+                answerSection.classList.remove('d-none');
+                button.innerHTML = '<i class="bi bi-x-lg me-1"></i>Hide Tips';
+            } else {
+                answerSection.classList.add('d-none');
+                button.innerHTML = '<i class="bi bi-lightbulb me-1"></i>Show Tips';
+            }
+        }
+
+        // Check if there's a recommended job from dashboard
+        window.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const jobTitle = urlParams.get('job');
+            
+            if (jobTitle) {
+                jobRoleSelect.value = jobTitle;
+                loadInterviewQuestions();
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,297 @@
+/* Custom CSS for Resume Builder & Dashboard */
+:root {
+    --primary-color: #4f46e5;
+    --secondary-color: #818cf8;
+    --accent-color: #c7d2fe;
+    --dark-bg: #f8fafc;
+    --text-dark: #1e293b;
+    --glass-bg: rgba(255, 255, 255, 0.95);
+}
+
+body {
+    font-family: 'Outfit', sans-serif;
+    background-color: var(--dark-bg);
+    background-image:
+        radial-gradient(at 0% 0%, hsla(253, 16%, 7%, 1) 0, transparent 50%),
+        radial-gradient(at 50% 0%, hsla(225, 39%, 30%, 1) 0, transparent 50%),
+        radial-gradient(at 100% 0%, hsla(339, 49%, 30%, 1) 0, transparent 50%);
+    background-size: cover;
+    background-attachment: fixed;
+    color: var(--text-dark);
+}
+
+.main-container {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    background: #eef2f6 url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+.login-card {
+    width: 100%;
+    max-width: 450px;
+    border-radius: 20px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.login-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1) !important;
+}
+
+.text-primary-gradient {
+    background: -webkit-linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.form-control {
+    border-radius: 12px;
+    border: 2px solid #e2e8f0;
+    padding: 1rem 0.75rem;
+    font-size: 0.95rem;
+    background-color: #f8fafc;
+    transition: all 0.2s;
+}
+
+.form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+    background-color: #fff;
+}
+
+.form-floating>label {
+    padding: 1rem 0.75rem;
+}
+
+.btn-gradient {
+    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+    border: none;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.btn-gradient:hover {
+    background: linear-gradient(45deg, var(--secondary-color), var(--primary-color));
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+}
+
+.btn-outline-secondary {
+    border-radius: 12px;
+    border-color: #e2e8f0;
+    color: var(--text-dark);
+    font-weight: 500;
+}
+
+.btn-outline-secondary:hover {
+    background-color: #f1f5f9;
+    color: var(--text-dark);
+    border-color: #cbd5e1;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #94a3b8;
+    z-index: 5;
+    font-size: 1.2rem;
+    transition: color 0.2s;
+}
+
+.password-toggle:hover {
+    color: var(--primary-color);
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- Dashboard Styles --- */
+.dashboard-body {
+    background-color: #f1f5f9;
+    background-image: none;
+}
+
+.glass-nav {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.glass-nav .navbar-brand, .glass-nav .nav-link { color: var(--text-dark) !important; }
+.glass-nav .nav-link:hover, .glass-nav .nav-link.active { color: var(--primary-color) !important; }
+
+.feature-card {
+    background: #fff;
+    border-radius: 16px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08) !important;
+}
+
+.list-group-item { transition: background-color 0.2s; }
+.list-group-item:hover { background-color: #f8fafc !important; }
+
+/* --- Upload Page Styles --- */
+.upload-card-width { max-width: 600px; }
+.upload-zone {
+    border: 2px dashed #cbd5e1;
+    border-radius: 16px;
+    background-color: #f8fafc;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+.upload-zone.dragover {
+    border-color: var(--primary-color);
+    background-color: #e0e7ff;
+}
+.upload-zone:hover { border-color: var(--secondary-color); }
+.back-link:hover { color: var(--primary-color) !important; }
+.bg-gradient-primary { background: linear-gradient(90deg, var(--primary-color), var(--secondary-color)); }
+.text-purple { color: #a855f7; }
+.badge.bg-primary-subtle { background-color: #e0e7ff !important; color: var(--primary-color) !important; }
+
+/* Landing Page Styles */
+.landing-body { background: #fff; background-image: none; }
+.hero-section { background: radial-gradient(circle at 10% 20%, rgb(242, 246, 252) 0%, rgb(255, 255, 255) 90%); overflow: hidden; }
+
+/* Hero Blobs */
+.absolute-blob { position: absolute; border-radius: 50%; filter: blur(80px); z-index: 0; }
+.blob-1 { width: 300px; height: 300px; background: rgba(79, 70, 229, 0.2); top: -50px; right: -50px; }
+.blob-2 { width: 250px; height: 250px; background: rgba(199, 210, 254, 0.4); bottom: -50px; left: 20%; }
+
+.transform-perspective {
+    transform: perspective(1000px) rotateY(-5deg) rotateX(2deg);
+    transition: transform 0.5s ease;
+}
+.transform-perspective:hover { transform: perspective(1000px) rotateY(0deg) rotateX(0deg); }
+
+.floating-card { border: 1px solid rgba(0, 0, 0, 0.05); }
+.card-1 { top: 20%; left: -30px; animation: float 6s ease-in-out infinite; }
+.card-2 { bottom: 20%; right: -20px; animation: float 5s ease-in-out infinite reverse; }
+
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-15px); }
+    100% { transform: translateY(0px); }
+}
+
+/* --- Builder Page Styles --- */
+.builder-body {
+    background-color: #f1f5f9;
+    background-image: radial-gradient(circle at 10% 20%, rgb(242, 246, 252) 0%, rgb(255, 255, 255) 90%);
+    overflow-x: hidden;
+}
+.builder-sidebar {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-right: 1px solid rgba(226, 232, 240, 0.8);
+    box-shadow: 5px 0 15px rgba(0, 0, 0, 0.03);
+}
+.custom-scrollbar::-webkit-scrollbar { width: 6px; }
+.custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 10px;
+    border: 2px solid transparent;
+    background-clip: content-box;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover { background-color: #94a3b8; }
+
+/* Stepper */
+.step-indicator {
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+    opacity: 0.6; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; position: relative;
+}
+.step-indicator:hover { opacity: 0.8; }
+.step-indicator.active { opacity: 1; transform: translateY(-2px); }
+.step-number {
+    width: 32px; height: 32px; background: #fff; border: 2px solid #e2e8f0; color: #64748b;
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-size: 0.85rem; font-weight: 700; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); transition: all 0.3s ease; z-index: 2;
+}
+.step-indicator.active .step-number {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    border-color: transparent; color: white; box-shadow: 0 4px 10px rgba(79, 70, 229, 0.3);
+}
+.step-label { font-size: 0.7rem; font-weight: 600; margin-top: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+.step-line { flex-grow: 1; height: 2px; background: #e2e8f0; margin: 0 10px; max-width: 40px; position: relative; top: -12px; }
+
+/* Resume Preview */
+.preview-container {
+    background-color: #e2e8f0;
+    background-image: radial-gradient(#cbd5e1 1px, transparent 1px), radial-gradient(#cbd5e1 1px, transparent 1px);
+    background-size: 20px 20px; background-position: 0 0, 10px 10px; box-shadow: inset 10px 0 20px rgba(0, 0, 0, 0.05);
+}
+.resume-paper {
+    width: 100%; max-width: 21cm; min-height: 29.7cm; background: white;
+    font-family: 'Times New Roman', Times, serif; padding: 2.5cm 2cm;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    transform-origin: top center; transition: transform 0.3s ease;
+}
+.resume-paper h1.display-5 { font-size: 2.5rem; color: #0f172a; font-family: 'Outfit', sans-serif; letter-spacing: -1px; }
+.resume-paper .text-primary { color: var(--primary-color) !important; }
+.resume-section-header { border-bottom: 2px solid #f1f5f9; padding-bottom: 8px; margin-bottom: 16px; }
+
+/* Dashboard Tabs */
+.nav-pills .nav-link { color: var(--text-dark); font-weight: 500; transition: all 0.3s; }
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color)); color: white; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+}
+.nav-pills .nav-link:hover:not(.active) { background-color: rgba(79, 70, 229, 0.05); color: var(--primary-color); }
+
+.hover-lift {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+.hover-lift:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12) !important;
+}
+
+/* Interview page specific styles */
+.answer-section {
+    animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Print styles for interview questions */
+@media print {
+    .navbar, .btn, .no-print {
+        display: none !important;
+    }
+    
+    .card {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+    
+    body {
+        background: white !important;
+    }
+}

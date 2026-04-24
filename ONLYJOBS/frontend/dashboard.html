@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | ONLYJOBS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="dashboard-body">
+
+    <nav class="navbar navbar-expand-lg navbar-dark glass-nav fixed-top">
+        <div class="container-fluid px-4">
+            <a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="index.html">
+                <i class="bi bi-file-earmark-person-fill text-primary-gradient"></i> ONLYJOBS
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center nav-pills" role="tablist">
+                    <li class="nav-item">
+                        <button class="nav-link active rounded-pill px-3" data-bs-toggle="pill" data-bs-target="#overview">Dashboard</button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link rounded-pill px-3" data-bs-toggle="pill" data-bs-target="#myresumes">My Resumes</button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link rounded-pill px-3" data-bs-toggle="pill" data-bs-target="#jobs">Jobs</button>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link rounded-pill px-3" href="interview">
+                            <i class="bi bi-chat-dots-fill me-1"></i>Interview Prep
+                        </a>
+                    </li>
+                    <li class="nav-item ms-lg-3">
+                         <a class="nav-link text-danger" href="index.html">Sign Out</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid pt-5 mt-5 pb-5">
+        <div class="tab-content" id="dashboardTabContent">
+
+            <div class="tab-pane fade show active" id="overview" role="tabpanel">
+                <div class="row g-4 px-lg-4">
+                    <div class="col-lg-3">
+                        <div class="card border-0 shadow-sm feature-card h-100">
+                            <div class="card-body text-center p-4">
+                                <div class="mb-4">
+                                    <div class="display-1 fw-bold text-primary-gradient mb-0" id="atsScoreDisplay">0</div>
+                                    <p class="text-muted fw-medium">Current ATS Score</p>
+                                </div>
+                                
+                                <div class="mb-4 text-start">
+                                    <div class="d-flex justify-content-between mb-1"><span class="small text-muted">Skills</span><span class="small fw-semibold" id="skillMatchPercent">0%</span></div>
+                                    <div class="progress mb-2" style="height: 4px;"><div class="progress-bar bg-primary" id="skillMatchBar" style="width: 0%"></div></div>
+                                </div>
+
+                                <a href="upload.html" class="btn btn-primary w-100 py-3 fw-bold btn-gradient mb-3">
+                                    <i class="bi bi-cloud-upload-fill me-2"></i> Upload Resume
+                                </a>
+                                
+                                <a href="builder" class="btn btn-outline-primary w-100 py-2 fw-medium">
+                                    <i class="bi bi-pencil-square me-2"></i> Build New Resume
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-9">
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <div class="card border-0 shadow-sm feature-card h-100">
+                                    <div class="card-header bg-transparent border-0 pt-4 px-4">
+                                        <h5 class="fw-bold mb-0"><i class="bi bi-lightning-charge-fill text-warning me-2"></i>Improvements</h5>
+                                    </div>
+                                    <div class="card-body px-4">
+                                        <div class="list-group list-group-flush" id="improvementsList">
+                                            <div class="text-center py-4 text-muted small">Loading improvements...</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="card border-0 shadow-sm feature-card h-100">
+                                    <div class="card-header bg-transparent border-0 pt-4 px-4 d-flex justify-content-between align-items-center">
+                                        <h5 class="fw-bold mb-0"><i class="bi bi-briefcase-fill text-primary me-2"></i>Job Matches</h5>
+                                        <span class="badge bg-primary-subtle text-primary rounded-pill" id="newJobsBadge">0 New</span>
+                                    </div>
+                                    <div class="card-body px-4" id="jobMatchesContainer">
+                                         <div class="text-center py-4 text-muted small">Finding matching jobs...</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Quick Actions Row -->
+                        <div class="row g-4 mt-2">
+                            <div class="col-md-4">
+                                <a href="interview" class="text-decoration-none">
+                                    <div class="card border-0 shadow-sm feature-card h-100 text-center p-4 hover-lift">
+                                        <i class="bi bi-chat-dots-fill text-primary display-4 mb-3"></i>
+                                        <h6 class="fw-bold mb-2">Interview Prep</h6>
+                                        <p class="small text-muted mb-0">Practice role-specific questions</p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-md-4">
+                                <a href="builder" class="text-decoration-none">
+                                    <div class="card border-0 shadow-sm feature-card h-100 text-center p-4 hover-lift">
+                                        <i class="bi bi-pencil-square text-success display-4 mb-3"></i>
+                                        <h6 class="fw-bold mb-2">Resume Builder</h6>
+                                        <p class="small text-muted mb-0">Create a professional resume</p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-md-4">
+                                <a href="#" class="text-decoration-none browse-jobs-link">
+                                    <div class="card border-0 shadow-sm feature-card h-100 text-center p-4 hover-lift">
+                                        <i class="bi bi-search text-info display-4 mb-3"></i>
+                                        <h6 class="fw-bold mb-2">Browse Jobs</h6>
+                                        <p class="small text-muted mb-0">Explore all opportunities</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="myresumes" role="tabpanel">
+                <div class="container px-lg-4 text-center py-5">
+                    <h3 class="text-muted">My Resumes Section</h3>
+                    <p>This section is visual only in this demo.</p>
+                    <a href="builder" class="btn btn-primary btn-lg btn-gradient rounded-pill px-5 mt-3">
+                        <i class="bi bi-plus-lg me-2"></i>Create New Resume
+                    </a>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="jobs" role="tabpanel">
+                 <div class="container px-lg-4 text-center py-5">
+                    <h3 class="text-muted">Full Job Search</h3>
+                    <p>This section is visual only in this demo.</p>
+                    <button class="btn btn-primary btn-lg btn-gradient rounded-pill px-5 mt-3" onclick="alert('Job search feature coming soon!')">
+                        <i class="bi bi-search me-2"></i>Search All Jobs
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
