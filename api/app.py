@@ -13,6 +13,9 @@ load_dotenv(dotenv_path=env_path)
 
 genai.configure(api_key=os.environ.get("GEMINI_API_KEY"))
 model = genai.GenerativeModel('gemini-1.5-flash')
+
+import sys
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 # ===============================
 # IMPORT PROJECT MODULES
 # ===============================
