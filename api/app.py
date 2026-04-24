@@ -1,9 +1,18 @@
+from dotenv import load_dotenv
+from pathlib import Path
 from flask import Flask, render_template, request, jsonify, send_from_directory
 from flask_cors import CORS
 import os
 from werkzeug.utils import secure_filename
 import random
+import google.generativeai as genai
 
+base_path = Path(__file__).resolve().parent
+env_path = base_path.parent / '.env'
+load_dotenv(dotenv_path=env_path)
+
+genai.configure(api_key=os.environ.get("GEMINI_API_KEY"))
+model = genai.GenerativeModel('gemini-1.5-flash')
 # ===============================
 # IMPORT PROJECT MODULES
 # ===============================
@@ -18,13 +27,15 @@ from interview_module import get_interview_questions
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 FRONTEND_DIR = os.path.join(BASE_DIR, "frontend")
-UPLOAD_DIR = os.path.join(BASE_DIR, "uploads")
+UPLOAD_DIR = "/tmp"
 
 app = Flask(
     __name__,
     template_folder=FRONTEND_DIR,
     static_folder=FRONTEND_DIR
 )
+app.config["UPLOAD_FOLDER"] = UPLOAD_DIR
+os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 # Enable CORS for all routes
 CORS(app, resources={r"/*": {"origins": "*"}})
@@ -36,7 +47,7 @@ ALLOWED_EXTENSIONS = {"pdf", "docx", "txt"}
 MAX_FILE_SIZE = 10 * 1024 * 1024  # 10 MB
 
 app.config["UPLOAD_FOLDER"] = UPLOAD_DIR
-app.config["MAX_CONTENT_LENGTH"] = MAX_FILE_SIZE
+app.config["MAX_CONTENT_LENGTH"] = 10 * 1024 * 1024
 
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 

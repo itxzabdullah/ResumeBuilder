@@ -5,3 +5,5 @@ scikit-learn
 spacy
 pdfplumber
 python-docx
+google-generativeai
+python-dotenv
