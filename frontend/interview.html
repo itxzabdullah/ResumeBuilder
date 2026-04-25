@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -34,7 +35,7 @@
                         <a class="nav-link" href="builder">Resume Builder</a>
                     </li>
                     <li class="nav-item ms-lg-3">
-                         <a class="nav-link text-danger" href="index.html">Sign Out</a>
+                        <a class="nav-link text-danger" href="index.html">Sign Out</a>
                     </li>
                 </ul>
             </div>
@@ -44,7 +45,7 @@
     <div class="container-fluid pt-5 mt-5 pb-5">
         <div class="row justify-content-center">
             <div class="col-lg-10 col-xl-8">
-                
+
                 <!-- Header Section -->
                 <div class="text-center mb-5">
                     <h1 class="display-5 fw-bold mb-3">
@@ -89,7 +90,7 @@
 
                 <!-- Questions Display -->
                 <div id="questionsContainer" class="d-none">
-                    
+
                     <!-- Technical Questions -->
                     <div class="card border-0 shadow-sm feature-card mb-4">
                         <div class="card-header bg-transparent border-0 pt-4 px-4">
@@ -171,7 +172,7 @@
 
         // Load questions on button click
         loadQuestionsBtn.addEventListener('click', loadInterviewQuestions);
-        
+
         // Refresh questions
         if (refreshQuestionsBtn) {
             refreshQuestionsBtn.addEventListener('click', () => {
@@ -197,7 +198,13 @@
             loadingState.classList.remove('d-none');
 
             try {
-                const response = await fetch('/api/interview_questions', {
+                // --- ADDED THIS LINE FOR SMART URL SWITCHING ---
+                const apiUrl = window.location.hostname.includes("localhost") || window.location.hostname.includes("127.0.0.1")
+                             ? "/get_questions" 
+                             : "https://onlyjobs-five.vercel.app/get_questions";
+
+                // --- UPDATED FETCH TO USE THE apiUrl VARIABLE ---
+                const response = await fetch(apiUrl, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -235,7 +242,7 @@
             // Display Technical Questions
             const technicalContainer = document.getElementById('technicalQuestions');
             technicalContainer.innerHTML = '';
-            
+
             if (questions.technical && questions.technical.length > 0) {
                 questions.technical.forEach((q, index) => {
                     technicalContainer.innerHTML += createQuestionCard(q, index + 1, 'primary');
@@ -247,7 +254,7 @@
             // Display Behavioral Questions
             const behavioralContainer = document.getElementById('behavioralQuestions');
             behavioralContainer.innerHTML = '';
-            
+
             if (questions.behavioral && questions.behavioral.length > 0) {
                 questions.behavioral.forEach((q, index) => {
                     behavioralContainer.innerHTML += createQuestionCard(q, index + 1, 'success');
@@ -259,7 +266,7 @@
             // Display Situational Questions
             const situationalContainer = document.getElementById('situationalQuestions');
             situationalContainer.innerHTML = '';
-            
+
             if (questions.situational && questions.situational.length > 0) {
                 questions.situational.forEach((q, index) => {
                     situationalContainer.innerHTML += createQuestionCard(q, index + 1, 'warning');
@@ -286,9 +293,10 @@
                                 </button>
                             </div>
                             <div class="answer-section d-none mt-3 p-3 bg-${color}-subtle rounded-3">
-                                <p class="small mb-0 text-muted">
-                                    <strong>Tip:</strong> Use the STAR method (Situation, Task, Action, Result) to structure your answer. 
-                                    Be specific with examples from your experience.
+                                <p class="small mb-0 text-dark">
+                                    <strong>How to Answer:</strong> ${color === 'primary'
+                                        ? 'Explain the core concept clearly, mention a real-world scenario where you used this, and discuss any trade-offs or performance considerations.'
+                                        : 'Use the <strong>STAR method</strong>: describe the Situation, the Task you had, the Action you took, and the Result you achieved.'}
                                 </p>
                             </div>
                         </div>
@@ -299,10 +307,10 @@
 
         function toggleAnswer(button) {
             const answerSection = button.parentElement.nextElementSibling;
-            const icon = button.querySelector('i');
             
             if (answerSection.classList.contains('d-none')) {
                 answerSection.classList.remove('d-none');
+                // Use textContent or specific selectors to avoid breaking the icon
                 button.innerHTML = '<i class="bi bi-x-lg me-1"></i>Hide Tips';
             } else {
                 answerSection.classList.add('d-none');
@@ -312,14 +320,34 @@
 
         // Check if there's a recommended job from dashboard
         window.addEventListener('DOMContentLoaded', () => {
-            const urlParams = new URLSearchParams(window.location.search);
-            const jobTitle = urlParams.get('job');
-            
-            if (jobTitle) {
-                jobRoleSelect.value = jobTitle;
-                loadInterviewQuestions();
+            // 1. Check if we have data passed from the Dashboard in localStorage
+            const savedQuestions = localStorage.getItem("interviewQuestions");
+            const savedJob = localStorage.getItem("currentInterviewJob");
+
+            if (savedQuestions && savedJob) {
+                // Automatically display the questions we already have
+                currentJobTitle = savedJob;
+                jobRoleSelect.value = savedJob;
+
+                displayQuestions(JSON.parse(savedQuestions));
+
+                // UI transitions
+                emptyState.classList.add('d-none');
+                loadingState.classList.add('d-none');
+                questionsContainer.classList.remove('d-none');
+            }
+            // 2. Fallback: Check if there's a job in the URL (e.g., ?job=Developer)
+            else {
+                const urlParams = new URLSearchParams(window.location.search);
+                const jobTitle = urlParams.get('job');
+
+                if (jobTitle) {
+                    jobRoleSelect.value = jobTitle;
+                    loadInterviewQuestions();
+                }
             }
         });
     </script>
 </body>
+
 </html>

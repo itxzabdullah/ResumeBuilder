@@ -8,7 +8,7 @@ import json
 # ===============================
 # CONFIGURATION & AI SETUP
 # ===============================
-# This pulls the key you set in the Vercel Dashboard
+# Configures the Gemini API using the key from your environment/Vercel settings
 genai.configure(api_key=os.environ.get("GEMINI_API_KEY"))
 model = genai.GenerativeModel('gemini-1.5-flash')
 
@@ -47,6 +47,7 @@ def extract_text_from_txt(file_path):
 # CLEAN TEXT
 # ===============================
 def clean_text(text):
+    if not text: return ""
     text = text.lower()
     text = re.sub(r"[^\w\s]", " ", text)
     text = re.sub(r"\s+", " ", text)
@@ -58,15 +59,21 @@ def clean_text(text):
 def extract_info_with_gemini(text):
     """
     Sends resume text to Gemini to extract skills and experience level.
+    Uses JSON mode to ensure the output is strictly valid for the frontend.
     """
+    if not text.strip():
+        return {"skills": [], "experience_level": "Entry"}
+
     prompt = f"""
     You are an expert HR recruitment AI. Analyze the following resume text and extract:
     1. A comprehensive list of technical and soft skills.
     2. The career experience level (choose strictly one: Entry, Mid, or Senior).
     
-    Return the response ONLY in valid JSON format:
+    Return the response ONLY in valid JSON format. Do not include markdown code blocks or explanations.
+    
+    Format:
     {{
-        "skills": ["Skill1", "Skill2", ...],
+        "skills": ["Skill1", "Skill2"],
         "experience_level": "Level"
     }}
 
@@ -75,14 +82,19 @@ def extract_info_with_gemini(text):
     """
 
     try:
-        response = model.generate_content(prompt)
-        # Remove markdown code blocks if Gemini includes them
-        clean_json = response.text.strip().replace('```json', '').replace('```', '')
-        return json.loads(clean_json)
+        # generation_config forces Gemini to output valid JSON
+        response = model.generate_content(
+            prompt,
+            generation_config={"response_mime_type": "application/json"}
+        )
+        
+        return json.loads(response.text.strip())
+
     except Exception as e:
         print(f"⚠️ Gemini AI Error: {e}. Falling back to defaults.")
+        # Fallback values prevent the whole site from crashing if API is down
         return {
-            "skills": ["General Professional"], 
+            "skills": ["Software Development", "Analytical Thinking"], 
             "experience_level": "Mid"
         }
 
@@ -91,10 +103,10 @@ def extract_info_with_gemini(text):
 # ===============================
 def parse_resume(file_path):
     """
-    The main function called by app.py
+    The main engine function called by app.py
     """
     if not os.path.exists(file_path):
-        raise FileNotFoundError("Resume file not found")
+        raise FileNotFoundError(f"Resume file not found at {file_path}")
 
     extension = os.path.splitext(file_path)[1].lower()
 
@@ -105,15 +117,15 @@ def parse_resume(file_path):
     elif extension == ".txt":
         raw_text = extract_text_from_txt(file_path)
     else:
-        raise ValueError("Unsupported file format")
+        raise ValueError(f"Unsupported file format: {extension}")
 
     cleaned_text = clean_text(raw_text)
 
-    # MAGIC HAPPENS HERE: Use AI to find skills instead of a hardcoded list
+    # Use Gemini's LLM capabilities to parse the unstructured text
     ai_results = extract_info_with_gemini(cleaned_text)
 
     return {
-        "resume_text": raw_text, # Original text for context
+        "resume_text": raw_text,
         "cleaned_text": cleaned_text,
         "skills": ai_results.get("skills", []),
         "experience_level": ai_results.get("experience_level", "Mid")

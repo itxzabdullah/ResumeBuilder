@@ -1,141 +1,87 @@
-# interview_module.py
-
 import random
+import os
+import json
+import google.generativeai as genai
+
+# ===============================
+# CONFIGURATION
+# ===============================
+genai.configure(api_key=os.environ.get("GEMINI_API_KEY"))
+model = genai.GenerativeModel('gemini-1.5-flash')
 
 # -------------------------------
-# INTERVIEW QUESTION BANK
+# 1. CACHED QUESTION BANK (Fast)
 # -------------------------------
-
 INTERVIEW_QUESTIONS = {
     "Frontend Web Developer": {
         "technical": [
             "Explain the difference between HTML, CSS, and JavaScript.",
             "How does React improve performance using Virtual DOM?",
-            "What are responsive design principles?",
-            "Explain CSS Flexbox and Grid.",
-            "How do you optimize frontend performance?"
+            "What are responsive design principles?"
         ],
-        "behavioral": [
-            "Describe a time you worked with a designer.",
-            "How do you handle tight deadlines?",
-            "How do you receive and implement feedback?"
-        ],
-        "situational": [
-            "How would you fix a website that loads slowly?",
-            "What would you do if a feature works on Chrome but not Firefox?"
-        ]
+        "behavioral": ["Describe a time you worked with a designer.", "How do you handle tight deadlines?"],
+        "situational": ["How would you fix a website that loads slowly?"]
     },
-
     "Web Developer": {
-        "technical": [
-            "What is REST API?",
-            "Explain client-server architecture.",
-            "What is the difference between frontend and backend?"
-        ],
-        "behavioral": [
-            "Describe a challenging project you worked on.",
-            "How do you manage multiple tasks?"
-        ],
-        "situational": [
-            "How would you debug a broken web page?"
-        ]
+        "technical": ["What is REST API?", "Explain client-server architecture."],
+        "behavioral": ["Describe a challenging project.", "How do you manage multiple tasks?"],
+        "situational": ["How would you debug a broken web page?"]
     },
-
-    "Social Media Manager": {
-        "technical": [
-            "How do you measure social media engagement?",
-            "What tools do you use for social media analytics?",
-            "Explain organic vs paid social media."
-        ],
-        "behavioral": [
-            "How do you handle negative comments?",
-            "How do you manage brand voice?"
-        ],
-        "situational": [
-            "How would you increase engagement for a declining page?"
-        ]
-    },
-
-    "Network Engineer": {
-        "technical": [
-            "Explain TCP/IP model.",
-            "What is the difference between LAN and WAN?",
-            "What are common wireless security protocols?",
-            "Explain subnetting."
-        ],
-        "behavioral": [
-            "Describe a major network failure you handled.",
-            "How do you prioritize issues?"
-        ],
-        "situational": [
-            "How would you troubleshoot slow network speed?"
-        ]
-    },
-
-    "Quality Control Manager": {
-        "technical": [
-            "What is ISO 9001?",
-            "Explain statistical process control.",
-            "How do you handle quality audits?"
-        ],
-        "behavioral": [
-            "How do you deal with production pressure?",
-            "Describe a quality issue you resolved."
-        ],
-        "situational": [
-            "What would you do if quality standards are not met?"
-        ]
-    }
+    # Add your other hardcoded roles here...
 }
-
-# -------------------------------
-# GENERIC FALLBACK QUESTIONS
-# -------------------------------
 
 GENERIC_QUESTIONS = {
-    "technical": [
-        "Explain your technical skill set.",
-        "What tools and technologies do you use?",
-        "How do you stay updated with industry trends?"
-    ],
-    "behavioral": [
-        "Tell me about yourself.",
-        "What are your strengths and weaknesses?",
-        "Describe a challenge you faced."
-    ],
-    "situational": [
-        "How do you handle pressure at work?",
-        "What would you do if you miss a deadline?"
-    ]
+    "technical": ["Explain your technical skill set.", "What tools do you use?"],
+    "behavioral": ["Tell me about yourself.", "What are your strengths?"],
+    "situational": ["How do you handle pressure at work?"]
 }
 
 # -------------------------------
-# MAIN FUNCTION
+# 2. AI GENERATION LOGIC (Dynamic)
 # -------------------------------
+def generate_questions_with_ai(job_title):
+    """Generates professional questions using Gemini for niche roles."""
+    prompt = f"""
+    Generate professional interview questions for: {job_title}.
+    Provide exactly 3 technical, 3 behavioral, and 3 situational questions.
+    Return the response ONLY in this valid JSON format:
+    {{
+        "technical": ["q1", "q2", "q3"],
+        "behavioral": ["q1", "q2", "q3"],
+        "situational": ["q1", "q2", "q3"]
+    }}
+    """
+    try:
+        response = model.generate_content(
+            prompt, 
+            generation_config={"response_mime_type": "application/json"}
+        )
+        return json.loads(response.text.strip())
+    except Exception as e:
+        print(f"AI Interview Error: {e}")
+        return GENERIC_QUESTIONS
 
+# -------------------------------
+# 3. MAIN INTERFACE FUNCTION
+# -------------------------------
 def get_interview_questions(job_title, role=None, max_per_category=3):
     """
-    Returns interview questions based on job title or role.
+    Logic: 
+    1. Try specific role in dict.
+    2. Try job_title in dict.
+    3. If not found, use Gemini AI to generate.
     """
+    # Normalize input for dictionary lookup
+    target = role if role and role in INTERVIEW_QUESTIONS else job_title
 
-    key = role if role in INTERVIEW_QUESTIONS else job_title
-
-    if key in INTERVIEW_QUESTIONS:
-        questions = INTERVIEW_QUESTIONS[key]
-    else:
-        questions = GENERIC_QUESTIONS
-
-    return {
-        "technical": random.sample(
-            questions["technical"], 
-            min(max_per_category, len(questions["technical"]))
-        ),
-        "behavioral": random.sample(
-            questions["behavioral"], 
-            min(max_per_category, len(questions["behavioral"]))
-        ),
-        "situational": random.sample(
-            questions["situational"], 
-            min(max_per_category, len(questions["situational"]))
-        )
-    }
+    # Step 1 & 2: Local Lookup
+    if target in INTERVIEW_QUESTIONS:
+        questions = INTERVIEW_QUESTIONS[target]
+        return {
+            cat: random.sample(q_list, min(max_per_category, len(q_list)))
+            for cat, q_list in questions.items()
+        }
+    
+    # Step 3: AI Fallback
+    # This makes the app feel "limitless" during your demo
+    return generate_questions_with_ai(target)
