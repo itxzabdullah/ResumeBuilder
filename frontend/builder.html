@@ -63,10 +63,11 @@
             </div>
 
             <div class="d-flex align-items-center gap-3">
-                <button class="btn btn-light fw-medium rounded-pill px-4 shadow-sm border">
+                <button id="previewBtn" class="btn btn-light fw-medium rounded-pill px-4 shadow-sm border">
                     <i class="bi bi-eye me-2"></i>Preview
                 </button>
-                <button class="btn btn-primary btn-gradient fw-bold rounded-pill px-4 shadow-sm">
+                <button id="exportBtn" type="button"
+                    class="btn btn-primary btn-gradient fw-bold rounded-pill px-4 shadow-sm">
                     <i class="bi bi-download me-2"></i>Export
                 </button>
             </div>
@@ -91,36 +92,50 @@
                             <div class="row g-3">
                                 <div class="col-md-6">
                                     <label class="form-label fw-medium small">First Name</label>
-                                    <input type="text" class="form-control" name="firstName" placeholder="John">
+                                    <input type="text" id="firstName" class="form-control" name="firstName"
+                                        placeholder="John">
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label fw-medium small">Last Name</label>
-                                    <input type="text" class="form-control" name="lastName" placeholder="Doe">
+                                    <input type="text" id="lastName" class="form-control" name="lastName"
+                                        placeholder="Doe">
                                 </div>
                                 <div class="col-12">
                                     <label class="form-label fw-medium small">Professional Title</label>
-                                    <input type="text" class="form-control" name="jobTitle"
+                                    <input type="text" id="jobTitle" class="form-control" name="jobTitle"
                                         placeholder="e.g. Senior Software Engineer">
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label fw-medium small">Email</label>
-                                    <input type="email" class="form-control" name="email"
+                                    <input type="email" id="email" class="form-control" name="email"
                                         placeholder="john@example.com">
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label fw-medium small">Phone</label>
-                                    <input type="tel" class="form-control" name="phone" placeholder="+1 (555) 000-0000">
+                                    <input type="tel" id="phone" class="form-control" name="phone"
+                                        placeholder="+1 (555) 000-0000">
                                 </div>
                                 <div class="col-12">
                                     <label class="form-label fw-medium small">Location</label>
-                                    <input type="text" class="form-control" name="location" placeholder="City, Country">
+                                    <input type="text" id="location" class="form-control" name="location"
+                                        placeholder="City, Country">
                                 </div>
+
                                 <div class="col-12">
-                                    <label class="form-label fw-medium small">Professional Summary</label>
-                                    <textarea class="form-control" name="summary" rows="4"
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <label class="form-label fw-medium small mb-0">Professional Summary</label>
+                                        <button type="button" id="aiEnhanceSummary"
+                                            class="btn btn-sm btn-outline-primary rounded-pill border-0 py-0">
+                                            <i class="bi bi-magic me-1"></i> AI Enhance
+                                        </button>
+                                    </div>
+
+                                    <textarea id="summaryInput" class="form-control" name="summary" rows="4"
                                         placeholder="Briefly describe your professional background and key achievements..."></textarea>
-                                    <div class="form-text text-end">0/300</div>
+
+                                    <div class="form-text text-end" id="summaryCounter">0/300</div>
                                 </div>
+
                             </div>
                         </div>
 
@@ -256,13 +271,17 @@
                         <h1 class="display-5 fw-bold mb-1" id="previewName">John Doe</h1>
                         <p class="text-primary h5 mb-3 fw-medium letter-spacing-1" id="previewTitle">Senior Software
                             Engineer</p>
+
                         <div class="d-flex justify-content-center gap-4 text-muted small">
-                            <span id="previewEmail" class="d-flex align-items-center gap-1"><i
-                                    class="bi bi-envelope-fill text-muted opacity-50"></i> john@example.com</span>
-                            <span id="previewPhone" class="d-flex align-items-center gap-1"><i
-                                    class="bi bi-telephone-fill text-muted opacity-50"></i> +1 (555) 000-0000</span>
-                            <span id="previewLocation" class="d-flex align-items-center gap-1"><i
-                                    class="bi bi-geo-alt-fill text-muted opacity-50"></i> New York, USA</span>
+                            <span id="previewEmail" class="d-flex align-items-center gap-1">
+                                <i class="bi bi-envelope-fill text-muted opacity-50 me-1"></i> john@example.com
+                            </span>
+                            <span id="previewPhone" class="d-flex align-items-center gap-1">
+                                <i class="bi bi-telephone-fill text-muted opacity-50 me-1"></i> +1 (555) 000-0000
+                            </span>
+                            <span id="previewLocation" class="d-flex align-items-center gap-1">
+                                <i class="bi bi-geo-alt-fill text-muted opacity-50 me-1"></i> New York, USA
+                            </span>
                         </div>
                     </div>
 

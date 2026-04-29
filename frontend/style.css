@@ -1,3 +1,30 @@
+@media print {
+    /* Hide everything except the resume paper */
+    .navbar, .builder-sidebar, #nextBtn, #prevBtn, .btn, .preview-container {
+        display: none !important;
+    }
+    
+    /* Reset the preview container positioning for the printer */
+    .preview-container {
+        position: static !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        width: 100% !important;
+        offset: 0 !important;
+    }
+
+    .resume-paper {
+        box-shadow: none !important;
+        border: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100% !important;
+    }
+    
+    body {
+        background: white !important;
+    }
+}
 /* Custom CSS for Resume Builder & Dashboard */
 :root {
     --primary-color: #4f46e5;
@@ -294,4 +321,71 @@ body {
     body {
         background: white !important;
     }
+}
+
+/* Mobile Optimization for Resume Builder */
+@media (max-width: 991.98px) {
+    .builder-sidebar {
+        position: relative !important; /* Unfix the sidebar */
+        top: 0 !important;
+        height: auto !important;
+        border-right: none !important;
+        border-bottom: 1px solid #dee2e6;
+        z-index: 5;
+    }
+
+    .preview-container {
+        margin-left: 0 !important;
+        padding: 20px !important;
+        background-color: #f8f9fa; /* Light grey to distinguish from form */
+    }
+
+    /* Make the resume paper scale down so it fits mobile screens */
+    .resume-paper {
+        transform: scale(0.8);
+        transform-origin: top center;
+        width: 100% !important;
+        min-width: unset !important;
+    }
+
+    /* Adjust navbar height for smaller screens */
+    .glass-nav {
+        height: auto !important;
+        padding: 10px 0;
+    }
+
+    .step-indicator .step-label {
+        display: none; /* Hide text labels on mobile to save space */
+    }
+}
+.resume-paper {
+    background: white;
+    width: 210mm; /* Standard A4 Width */
+    min-height: 297mm;
+    padding: 20mm;
+    margin: 0 auto;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+/* Specific spacing for the resume header */
+.letter-spacing-1 {
+    letter-spacing: 1px;
+}
+
+.spacing-header {
+    border-bottom: 2px solid var(--bs-primary);
+    padding-bottom: 5px;
+    margin-bottom: 15px;
+}
+.preview-container {
+    background-color: #e9ecef; /* A slightly darker grey to make the white paper 'pop' */
+    overflow-x: auto;
+    display: flex;
+    align-items: flex-start;
+    overflow-x: auto; 
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
 }
